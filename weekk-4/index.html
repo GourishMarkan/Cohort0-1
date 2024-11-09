@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM</title>
+  </head>
+  <body>
+    <input oninput="populateDiv()"type="text" placeholder="First number" id="firstNumber" />
+    <br ></br>
+    <input type="text" oninput="populateDiv()" placeholder="Second number" id="secondNumber" />
+    <br ></br>
+    <button onclick="populateDiv()">Calculate Sum</button>
+     <div id="finalSum"></div>
+     <h1>assigment hard wale</h1>
+     <input type="number" placeholder="princpleAmount"id="principle"/>
+     <input type="number" placeholder="interestRate" id="interest"/>
+     <input type="number" placeholder="time " id="time"/>
+     <button onclick="calculateP()">calculatePrinciple</button>
+     <div id="finalP"></div>
+    <script>
+        // debouncing--------
+        function debouncePopulateDiv(){
+        // delay the call to populateDiv until i ve not been called for 100ms
+        // and i`ve been called atleast one
+       const timeout= setTimeout(()=>{
+          populateDiv();
+        },100);
+        clearTimeout(timeout);
+        }
+       async function populateDiv(){
+          let a=document.getElementById("firstNumber").value;
+          let b=document.getElementById("secondNumber").value;
+        //   let div=document.querySelector("#finalSum");
+          //  fetch;
+        const response=await  fetch(`https://sum-server.100xdevs.com/sum?a=${a}&b=${b}`)
+         const data= await response.text();
+         document.getElementById('finalSum').innerHTML = `The sum is ${data}` ;
+
+            // div.innerHTML=`sum is ${parseInt(a)+parseInt(b)}`;
+        }
+      async function calculateP(){
+        let p=document.querySelector("#principle").value;
+        let i=document.querySelector("#interest").value;
+        let t=document.querySelector("#time").value;
+        const response=await fetch(`https:sum-server.100xdevs.com/interest?principal=${p}&rate=${i}&time=${t}`);
+        const data=await response.json(
+
+        );
+        // {
+        //     interest:this.interest,
+        //     total:this.total
+        // });
+        console.log(data);
+        document.getElementById("finalP").innerHTML=`
+        ${data.interest} and total ${data.total}`;
+        }
+    </script>
+  </body>
+</html>
